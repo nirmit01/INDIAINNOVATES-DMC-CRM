@@ -12,7 +12,7 @@ Full-stack local version of the DMC Citizen Grievance Management System.
 
 ### Terminal 1 — Backend API
 ```bash
-cd backend
+cd server
 npm install
 npm start
 ```
@@ -45,10 +45,10 @@ The app has AI-powered complaint classification, officer recommendations, and ex
 **To enable AI:** set your Anthropic API key before starting the backend:
 ```bash
 # Mac/Linux
-export ANTHROPIC_API_KEY=sk-ant-...
+export GEMINI_API_KEY=sk-ant-...
 
 # Windows CMD
-set ANTHROPIC_API_KEY=sk-ant-...
+set GEMINI=sk-ant-...
 ```
 
 Without a key, AI features fall back to rule-based responses automatically.
@@ -58,8 +58,8 @@ Without a key, AI features fall back to rule-based responses automatically.
 ## Project Structure
 ```
 dmc-crm/
-├── backend/
-│   ├── server.js       # Express API + Anthropic AI proxy
+├── server/
+│   ├── index.js       # Express API + Gemini AI proxy
 │   └── package.json
 └── frontend/
     ├── public/index.html
