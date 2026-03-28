@@ -55,7 +55,7 @@ const ALL_STATUSES = Object.keys(STATUS_META);
 const ALL_PRIORITIES = ["Low","Medium","High","Critical"];
 
 // ─── API HELPERS ──────────────────────────────────────────────────────────────
-const API = "http://localhost:3001/api";
+const API = "https://dmc-crm-backend.onrender.com/api";
 
 const apiFetch = async (path, opts = {}) => {
   const res = await fetch(API + path, {
@@ -211,7 +211,7 @@ const handleSubmit = async () => {
         // --- LOGIN REQUEST ---
         if (!email || !pass) { setErr("Email and password are required."); setLoading(false); return; }
 
-        const res = await fetch("/api/login", {
+        const res = await fetch(API + "/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, pass, role })
@@ -227,7 +227,7 @@ const handleSubmit = async () => {
         if (!name || !email || !phone || !pass) { setErr("All fields are required."); setLoading(false); return; }
         if (phone.length !== 10) { setErr("Enter a valid 10-digit mobile number."); setLoading(false); return; }
 
-        const res = await fetch("/api/register", {
+        const res = await fetch(API + "/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name, email, phone, pass })
