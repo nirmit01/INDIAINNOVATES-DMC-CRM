@@ -20,7 +20,15 @@ if (!document.getElementById("dmc-global")) {
   document.head.appendChild(s);
 }
 
-const T = {
+// ─── THEME ENGINE ─────────────────────────────────────────────────────────────
+const isDark = typeof window !== 'undefined' && localStorage.getItem("dmcTheme") === "dark";
+
+export const toggleTheme = () => {
+  localStorage.setItem("dmcTheme", isDark ? "light" : "dark");
+  window.location.reload(); // Instantly applies theme without complex React state
+};
+
+const LIGHT = {
   navy:      "#1B3A6B", navyDark: "#122848", navyLight:"#2350A0",
   saffron:   "#FF6600", saffronL: "#FFF3EB",
   green:     "#1A7A4A", greenL:   "#E8F5EE",
@@ -33,6 +41,22 @@ const T = {
   blue:      "#1B4F9E", blueL:    "#EBF1FB",
   purple:    "#6B3FA0", purpleL:  "#F3EEF9",
 };
+
+const DARK = {
+  navy:      "#3B82F6", navyDark: "#0B1120", navyLight:"#1D4ED8", // Glowing blues
+  saffron:   "#F97316", saffronL: "#432C1A",
+  green:     "#22C55E", greenL:   "#143823",
+  ink:       "#F8FAFC", inkMid:   "#CBD5E1", // Bright text for readability
+  steel:     "#94A3B8", steelL:   "#475569", // Muted subtext
+  border:    "#334155", borderL:  "#1E293B", // Subtle dark borders
+  surface:   "#020617", white:    "#0F172A", // Deep charcoal backgrounds
+  red:       "#EF4444", redL:     "#451A1A",
+  amber:     "#F59E0B", amberL:   "#452715",
+  blue:      "#3B82F6", blueL:    "#172554",
+  purple:    "#A855F7", purpleL:  "#3B1D59",
+};
+
+const T = isDark ? DARK : LIGHT;
 
 // ─── CONSTANTS ────────────────────────────────────────────────────────────────
 const STATUS_META = {
@@ -63,6 +87,7 @@ const apiFetch = async (path, opts = {}) => {
     ...opts,
     body: opts.body ? JSON.stringify(opts.body) : undefined,
   });
+  
   if (!res.ok) throw new Error("API error " + res.status);
   return res.json();
 };
@@ -179,8 +204,14 @@ const GovBanner = () => (
         <div style={{ fontSize:10, color:"rgba(255,255,255,0.6)", letterSpacing:"0.06em" }}>GOVERNMENT OF NCT OF DELHI</div>
       </div>
     </div>
+    
     <div style={{ display:"flex", alignItems:"center", gap:16, fontSize:11, color:"rgba(255,255,255,0.55)" }}>
-      <span>Skip to main content</span><span>|</span><span>Screen Reader</span><span>|</span><span>A- A A+</span>
+      {/* --- THEME TOGGLE BUTTON --- */}
+      <button onClick={toggleTheme} style={{ background:"rgba(255,255,255,0.1)", border:"1px solid rgba(255,255,255,0.2)", borderRadius:12, padding:"4px 10px", color:"#fff", cursor:"pointer", fontSize:11, display:"flex", alignItems:"center", gap:5, fontFamily:"inherit", transition:"all 0.2s" }}>
+        {isDark ? "☀️ Light Mode" : "🌙 Dark Mode"}
+      </button>
+      
+      <span style={{ marginLeft: 8 }}>Skip to main content</span><span>|</span><span>Screen Reader</span><span>|</span><span>A- A A+</span>
     </div>
   </div>
 );
